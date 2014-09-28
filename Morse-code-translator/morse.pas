@@ -16,6 +16,8 @@ Const
 	LETTEREND 	= 80;
 	WORDEND 		= 250;
 	SENTENCEEND = 1000;
+	
+	READSPEED	= 10;
 
 Var
  	pin, lastpin : longint;
@@ -90,7 +92,6 @@ begin
 								
 				// Reset signal length
 				signallen := 0;
-				
 			end;
 			
 			
@@ -117,8 +118,9 @@ begin
 			// Increment signal length			
 			inc(signallen);
 			
-			// Wait a bit
-	    	delay( 10 );
+			// Wait READSPEED milliseconds between 
+			// each pin status read
+	    	delay( READSPEED );
 	    	
 		end;
 
