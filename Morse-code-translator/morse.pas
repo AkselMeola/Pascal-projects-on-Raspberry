@@ -12,6 +12,12 @@ Const
 	'..-.','--.','....','..','.---', '-.-', '.-..','--', '-.' , '---', 
 	'.--.','--.-','.-.', '...', '-', '..-', '...-', '.--', '-..-', 
 	'-.--', '--..' );  
+	
+	LETTEREND 	= 80;
+	WORDEND 		= 250;
+	SENTENCEEND = 1000;
+	
+	READSPEED	= 10;
 
 Var
  	pin, lastpin : longint;
@@ -71,51 +77,50 @@ begin
 			// Read pin value
 			pin := digitalRead(2);
 	
-			// Test if pin value has changed		
+			{ Test for pin status change }		
 			if pin <> lastpin then begin
 								
-				// process signal length
-				if lastpin = 0 then
-					// Dash or dot ?
+				// if pin status change indicates 
+				// that button was released 
+				if lastpin = 0 then 
+					// Is it dash or dot then ?
 					if signallen > 30 then morsebuffer := morsebuffer + '-'
 					else morsebuffer := morsebuffer + '.';
 					
-				// Set lastpin to new pin value
+				// Set lastpin to new pin status
 				lastpin := pin;
 								
 				// Reset signal length
 				signallen := 0;
-				
 			end;
 			
-			// Test for empty signal lengths			
-			case signallen of
-				// write out the letter if no input change in 80 reads 
-				80..250	:	begin
-									if morseToChr(morsebuffer) <> chr(0) then
-										message := message + morseToChr(morsebuffer); 
-									write(morseToChr(morsebuffer));
-									morsebuffer := '';
-								end;
-				// Add space for words if no change in input for 250 reads				
-				251..1000:	if message[ Length(message) ] <> ' ' then begin
-									message := message + ' ';
-									write(' ');
-								end;									
-								
-				// Add end of sentence if no input for 1000 reads				
-				1001..4000:	if message[ Length(message) ] <> '.' then begin
-									message := message + '.';
-									write('.');
-								end;	
-							
+			
+			{ Tests for signal length }
+			// Write out letter when there is no signal change in LETTEREND reads			
+			if (signallen > LETTEREND ) and (morseToChr(morsebuffer)<>chr(0)) then begin
+				message := message + morseToChr(morsebuffer); 
+				write(morseToChr(morsebuffer));
+				morsebuffer := '';
+			end
+			// Write out space when there is no signal change for WORDEND reads. 
+			// If last caharacter of message is allready space then don't add any more. 
+			else if (signallen > WORDEND ) and (message[ Length(message) ] <> ' ') then begin
+				message := message + ' ';
+				write(' ');			
+			end
+			// Write out dot(.) when there is no signal change for SENTENCEEND reads. 
+			// If last caharacter of message is allready dot then don't add any. 
+			else if (signallen > SENTENCEEND) and (message[ Length(message) ] <> '.') then begin
+				message := message + '.';
+				write('. ');			
 			end;
 			
 			// Increment signal length			
 			inc(signallen);
 			
-			// Wait a bit
-	    	delay( 10 );
+			// Wait READSPEED milliseconds between 
+			// each pin status read
+	    	delay( READSPEED );
 	    	
 		end;
 

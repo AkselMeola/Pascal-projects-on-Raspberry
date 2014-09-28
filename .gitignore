@@ -1,0 +1,8 @@
+#Ignore temp files
+*~
+
+#ignore objects etc..
+*.[oa]
+
+#ignore build dir
+/*/build
