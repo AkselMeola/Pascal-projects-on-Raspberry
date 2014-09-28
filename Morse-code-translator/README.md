@@ -12,10 +12,10 @@ Time is measured by incrementing signallen variable.
 WiringPi library makes it really easy to get started on GPIO and Pascal.
 
 
-#RaspBerry Model
+###RaspBerry Model
 This program was made on raspberry model B. 
 
-#wiringPI and lazwiringpi
+###wiringPI and lazwiringpi
 lazwiringpi.pas: Pascal wrapper unit for Gordon Henderson wiringPi library. 
 The source can be found at https://projects.drogon.net/raspberry-pi/wiringpi/. 
 Wrapper by Alex Schaller.
