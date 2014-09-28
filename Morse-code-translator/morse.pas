@@ -13,6 +13,7 @@ Const
 	'.--.','--.-','.-.', '...', '-', '..-', '...-', '.--', '-..-', 
 	'-.--', '--..' );  
 	
+	DOTLENGTH	= 30;
 	LETTEREND 	= 80;
 	WORDEND 		= 250;
 	SENTENCEEND = 1000;
@@ -52,12 +53,10 @@ begin
 
 	writeln('Morse key reader');
 
-	lastpin := 1;		// Last status of the GPIO pin
-	signallen := 0;		// How long the Pin status has been unchanged
+	lastpin 		:= 1;		// Last status of the GPIO pin
+	signallen 	:= 0;		// How long the Pin status has been unchanged
 	morsebuffer := '';	// hold dashes and dots for letters
-	message := '';		// Whole written message
-
-	writeln(message[length(message)]);
+	message 		:= '';	// Whole written message
 
 	If wiringPiSetup <> -1 then Begin
 
@@ -84,7 +83,7 @@ begin
 				// that button was released 
 				if lastpin = 0 then 
 					// Is it dash or dot then ?
-					if signallen > 30 then morsebuffer := morsebuffer + '-'
+					if signallen > DOTLENGTH then morsebuffer := morsebuffer + '-'
 					else morsebuffer := morsebuffer + '.';
 					
 				// Set lastpin to new pin status
