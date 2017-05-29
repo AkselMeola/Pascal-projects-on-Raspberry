@@ -1,6 +1,6 @@
-﻿#Morse code translator
+# Morse code translator
 
-#How it works
+# How it works
 Program uses a button that is connected to the GPIO pins and acts as a morse key.
 Main loop checks if button is pressed and if so, measures the length of time it is pressed. When button is released again it decides if it was a dash or dot. Time is measured by incrementing signallen variable on every iteration the button state is read as on/pushed.  
 Dashes and dots are collected to buffer string and when nothing is read from button for some 
@@ -9,10 +9,10 @@ On longer delays it adds a space between letters/words and when waiting even lon
 Program also checks what character was inserted last so it will not add duplicate spaces or dots when button is not pressed for a very long time.
 
 
-###RaspBerry Model
+### RaspBerry Model
 This program was made on raspberry model B. 
 
-###wiringPI and lazwiringpi
+### wiringPI and lazwiringpi
 WiringPi library makes it really easy to get started on GPIO and Pascal.
 
 lazwiringpi.pas: Pascal wrapper unit for Gordon Henderson wiringPi library. 
